@@ -15,6 +15,7 @@ class SignInRepository {
     final data = {
       'email': email,
       'password': password,
+      'role': "ROLE_STUDENT"
     };
     try {
       final response = await _dio.post(

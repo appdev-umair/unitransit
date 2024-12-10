@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/constants/icon_constant.dart';
 import '../../../../core/constants/padding_constants.dart';
@@ -9,6 +12,7 @@ import '../../../../core/utils/scaffold_messenger_service.dart';
 import '../../../../routes/app_routes.dart';
 import '../../../widgets/divider_or.dart';
 import '../../../widgets/extra_text_button.dart';
+import '../../../widgets/profile_viewer.dart';
 import '../../../widgets/social_button.dart';
 
 import 'bloc/sign_up_bloc.dart';
@@ -77,6 +81,7 @@ class SignUpScreen extends StatelessWidget {
                       const Text(
                         "Create your account",
                       ),
+                      _buildProfilePictureField(context),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.02),
                       _buildNameField(context),
@@ -113,6 +118,37 @@ class SignUpScreen extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  Widget _buildProfilePictureField(BuildContext context) {
+    return BlocBuilder<SignUpBloc, SignUpState>(
+      buildWhen: (previous, current) {
+
+        return previous.profilePicture?.path != current.profilePicture?.path;
+      },
+      builder: (context, state) {
+        return Center(
+          child: ProfileViewer(
+            fileImage: state.profilePicture != null
+                ? File(state.profilePicture!.path)
+                : null,
+            placeholder: 'assets/images/default_profile.png',
+            radius: 50,
+            onTap: () async {
+              final ImagePicker picker = ImagePicker();
+              final XFile? image =
+                  await picker.pickImage(source: ImageSource.gallery);
+              if (image != null) {
+
+                context
+                    .read<SignUpBloc>()
+                    .add(SignUpProfilePictureChangedEvent(image));
+              }
+            },
+          ),
+        );
+      },
     );
   }
 

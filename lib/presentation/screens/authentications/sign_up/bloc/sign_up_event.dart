@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 
 abstract class SignUpEvent extends Equatable {
   const SignUpEvent();
@@ -21,6 +24,14 @@ class SignUpGenderChangedEvent extends SignUpEvent {
 
   @override
   List<Object?> get props => [gender];
+}
+
+class SignUpProfilePictureChangedEvent extends SignUpEvent {
+  final XFile profilePicture;
+  const SignUpProfilePictureChangedEvent(this.profilePicture);
+
+  @override
+  List<Object?> get props => [profilePicture];
 }
 
 class SignUpEmailChangedEvent extends SignUpEvent {

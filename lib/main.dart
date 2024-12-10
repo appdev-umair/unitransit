@@ -5,7 +5,7 @@ import '/theme/app_theme.dart';
 import 'core/utils/navigation_service.dart';
 import 'core/utils/token.dart';
 import 'presentation/screens/authentications/sign_in/sign_in_screen.dart';
-import 'presentation/screens/home/home_screen.dart';
+import 'presentation/widgets/bottom_navigation_bar.dart';
 import 'routes/app_routes.dart';
 
 const storage = FlutterSecureStorage();
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: _navigationService.navigatorKey,
       scaffoldMessengerKey: _scaffoldMessengerService.messengerKey,
       onGenerateRoute: AppRoutes.generateRoute,
-      home: token == null ? SignInScreen() : const HomeScreen(),
+      home: token == null ? SignInScreen() : const BottomNavBar(),
     );
   }
 }

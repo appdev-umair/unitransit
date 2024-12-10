@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 
 enum SignUpStatus { initial, loading, success, error }
 
@@ -13,6 +14,7 @@ class SignUpState extends Equatable {
     this.isConfirmPasswordVisible = false,
     this.message = '',
     this.signUpStatus = SignUpStatus.initial,
+    this.profilePicture, 
   });
 
   final String name;
@@ -24,6 +26,7 @@ class SignUpState extends Equatable {
   final bool isConfirmPasswordVisible;
   final String message;
   final SignUpStatus signUpStatus;
+  final XFile? profilePicture; // New field
 
   SignUpState copyWith({
     String? name,
@@ -35,6 +38,7 @@ class SignUpState extends Equatable {
     bool? isConfirmPasswordVisible,
     String? message,
     SignUpStatus? signUpStatus,
+    XFile? profilePicture, // New field
   }) {
     return SignUpState(
       name: name ?? this.name,
@@ -47,12 +51,14 @@ class SignUpState extends Equatable {
           isConfirmPasswordVisible ?? this.isConfirmPasswordVisible,
       message: message ?? this.message,
       signUpStatus: signUpStatus ?? this.signUpStatus,
+      profilePicture: profilePicture ?? this.profilePicture,
     );
   }
 
   @override
   List<Object?> get props => [
         name,
+        profilePicture,
         email,
         password,
         confirmPassword,
